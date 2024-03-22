@@ -1,0 +1,58 @@
+package com.productapp.repository;
+
+import java.util.List;
+
+import com.productapp.exception.ProductNotFoundException;
+import com.productapp.model.Product;
+
+public class ProductRepositoryImpl implements IProductRepository{
+
+	@Override
+	public void addProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Product findById(int productId) throws ProductNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findByAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findByBrand(String brand) throws ProductNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findByLessPrice(double price) throws ProductNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findByCategoryPrice(String category, double price) throws ProductNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

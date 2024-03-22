@@ -1,0 +1,10 @@
+package com.voya.demo;
+
+public class vehicleMain {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

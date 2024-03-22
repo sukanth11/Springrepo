@@ -1,0 +1,11 @@
+package com.insuranceapp.repository;
+
+import org.apache.ibatis.annotations.Mapper;
+import com.insuranceapp.model.AppUser;
+@Mapper
+public interface IAppUserRepository {
+	
+	void addUser(AppUser appUser);
+	AppUser findByUsername(String username);
+
+}

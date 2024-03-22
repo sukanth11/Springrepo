@@ -1,0 +1,47 @@
+package com.productapp.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.productapp.exception.ProductNotFoundException;
+import com.productapp.model.Product;
+import com.productapp.serivice.IProductService;
+
+@RestController
+@RequestMapping("/product-api/v1")
+public class ProductControllers {
+	
+	@Autowired
+	IProductService productService;
+	
+	
+	void addProduct(Product product) {
+		
+	}
+	void updateProduct(int productId,double price) {
+		
+	}
+	void deleteProduct(int productId) {
+		
+	}
+	
+	Product getById(int productId) {
+		
+	}
+	List<Product> getByAll(){
+		
+	}
+	List<Product> getByBrand(String brand){
+		
+	}
+	List<Product> getByLessPrice(double price){
+		
+	}
+	List<Product> getByCategoryPrice(String category,double price){
+		
+	}
+
+}

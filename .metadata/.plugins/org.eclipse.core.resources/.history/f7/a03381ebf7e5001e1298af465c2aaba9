@@ -1,0 +1,207 @@
+package com.doctorapp.repository;
+
+import com.doctorapp.model.Doctor;
+import com.doctorapp.util.DoctorDataBase;
+import com.doctorapp.util.Queries;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class DoctorRepositoryImpl implements IDoctorRepository {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+    public DoctorRepositoryImpl(JdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+    public void addDoctor(Doctor doctor) {
+		Object[] doctorArray= {doctor.getDoctorName(),doctor.getSpeciality(),doctor.getExperince(),doctor.getRating(),doctor.getFees()};
+		jdbcTemplate.update(Queries.INSERTQUERY,doctorArray);
+    }
+
+    @Override
+    public void updateDoctor(int doctorId, double fees) {
+    	jdbcTemplate.update(Queries.UPDATEQUERY,fees,doctorId);
+    }
+
+    @Override
+    public void deleteDoctor(int doctorId) {
+    	jdbcTemplate.update(Queries.DELETEQUERY,doctorId);
+    }
+
+    @Override
+    public Doctor findById(int doctorId) {
+    	Doctor doctor=jdbcTemplate.queryForObject(Queries.FINDBYID,new DoctorMapper(),doctorId);
+		return doctor;
+    }
+
+    @Override
+    public List<Doctor> findAll() {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement = connection.prepareStatement(Queries.FINDALLQUERY);
+             ResultSet resultSet = statement.executeQuery();) {
+            while (resultSet.next()) {
+                String doctorName = resultSet.getString("doctor_name");
+                String speciality = resultSet.getString("speciality");
+                int experience = resultSet.getInt("experience");
+                int ratings = resultSet.getInt("ratings");
+                int doctorId = resultSet.getInt("doctor_id");
+                double fees = resultSet.getDouble("fees");
+                Doctor doctor = new Doctor(doctorId,doctorName,  speciality, fees, ratings, experience);
+                doctors.add(doctor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    @Override
+    public List<Doctor> findAll(String speciality) {
+        return null;
+    }
+
+    @Override
+    public List<Doctor> findBySpeciality(String speciality) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement = connection.prepareStatement(Queries.FINDBYSPECIALITY);
+        ) {
+            statement.setString(1, speciality);
+            try (ResultSet resultSet = statement.executeQuery();) {
+                while (resultSet.next()) {
+                    String doctorName = resultSet.getString("doctor_name");
+                    int experience = resultSet.getInt("experience");
+                    int ratings = resultSet.getInt("ratings");
+                    int doctorId = resultSet.getInt("doctor_id");
+                    double fees = resultSet.getDouble("fees");
+                    Doctor doctor = new Doctor();
+//          doctor.setDoctorName(resultSet.getString("doctor_name"));
+                    doctor.setDoctorName(doctorName);
+                    doctor.setSpeciality(speciality);
+                    doctor.setExperince(experience);
+                    doctor.setRating(ratings);
+                    doctor.setFees(fees);
+                    doctor.setDoctorId(doctorId);
+                    doctors.add(doctor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    @Override
+    public List<Doctor> findBySpecialityAndNameContains(String speciality, String doctorName) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(Queries.FINDBYSPECANDNAME);) {
+            statement.setString(1, speciality);
+            statement.setString(2, "%" + doctorName + "%");
+            try (ResultSet resultSet = statement.executeQuery();) {
+                while (resultSet.next()) {
+                    Doctor doctor = new Doctor();
+                    doctor.setDoctorName(resultSet.getString("doctor_name"));
+                    doctor.setSpeciality(resultSet.getString("speciality"));
+                    doctor.setExperince(resultSet.getInt("experience"));
+                    doctor.setRating(resultSet.getInt("ratings"));
+                    doctor.setFees(resultSet.getDouble("fees"));
+                    doctor.setDoctorId(resultSet.getInt("doctor_id"));
+                    doctors.add(doctor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    @Override
+    public List<Doctor> findBySpecialityAndExp(String speciality, int experience) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement = connection.prepareStatement(Queries.FINDBYSPECANDEXP);) {
+            statement.setString(1, speciality);
+            statement.setInt(2, experience);
+            try (ResultSet resultSet = statement.executeQuery();) {
+                while (resultSet.next()) {
+                    Doctor doctor = new Doctor();
+                    doctor.setDoctorName(resultSet.getString("doctor_name"));
+                    doctor.setSpeciality(resultSet.getString("speciality"));
+                    doctor.setExperince(resultSet.getInt("experience"));
+                    doctor.setRating(resultSet.getInt("ratings"));
+                    doctor.setFees(resultSet.getDouble("fees"));
+                    doctor.setDoctorId(resultSet.getInt("doctor_id"));
+                    doctors.add(doctor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    @Override
+    public List<Doctor> findBySpecialityAndLessFee(String speciality, double fees) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement = connection.prepareStatement(Queries.FINDBYSPECANDFEES);) {
+            statement.setString(1, speciality);
+            statement.setDouble(2, fees);
+            try (ResultSet resultSet = statement.executeQuery();) {
+                while (resultSet.next()) {
+                    Doctor doctor = new Doctor();
+                    doctor.setDoctorName(resultSet.getString("doctor_name"));
+                    doctor.setSpeciality(resultSet.getString("speciality"));
+                    doctor.setExperince(resultSet.getInt("experience"));
+                    doctor.setRating(resultSet.getInt("ratings"));
+                    doctor.setFees(resultSet.getDouble("fees"));
+                    doctor.setDoctorId(resultSet.getInt("doctor_id"));
+                    doctors.add(doctor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    @Override
+    public List<Doctor> findBySpecialityAndRating(String speciality, int ratings) {
+        List<Doctor> doctors = new ArrayList<>();
+        try (Connection connection = DoctorDataBase.openConnection();
+             PreparedStatement statement = connection.prepareStatement(Queries.FINDBYSPECANDRAT);) {
+            statement.setString(1, speciality);
+            statement.setInt(2, ratings);
+            try (ResultSet resultSet = statement.executeQuery();) {
+                while (resultSet.next()) {
+                    Doctor doctor = new Doctor();
+                    doctor.setDoctorName(resultSet.getString("doctor_name"));
+                    doctor.setSpeciality(resultSet.getString("speciality"));
+                    doctor.setExperince(resultSet.getInt("experience"));
+                    doctor.setRating(resultSet.getInt("ratings"));
+                    doctor.setFees(resultSet.getDouble("fees"));
+                    doctor.setDoctorId(resultSet.getInt("doctor_id"));
+                    doctors.add(doctor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+}

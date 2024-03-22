@@ -1,0 +1,10 @@
+package com.insuranceapp.repository;
+
+import com.insuranceapp.model.AppUser;
+
+public interface IAppUserRepository {
+	
+	void addUser(AppUser appUser);
+	AppUser findByUsername(String username);
+
+}

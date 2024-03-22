@@ -1,0 +1,20 @@
+package com.bookapp.repository;
+
+import java.util.List;
+
+import com.bookapp.exception.BookNotFoundException;
+import com.bookapp.exception.IdNotFoundException;
+import com.bookapp.model.Book;
+
+public interface IBookRepository {
+	
+	List<Book> addBook(Book book);
+	List<Book> updateBook();
+	List<Book> deleteBook();
+	List<Book> findAll();
+    List<Book> findByAuthorStaetsWith(String author)throws BookNotFoundException;
+    List<Book> findByCategory(String category)throws BookNotFoundException;
+    List<Book> findByPriceLessThan(double price)throws BookNotFoundException;
+    List<Book> findByAuthorCointainsAndCategory(String author,String category)throws BookNotFoundException;
+    Book findById(int bookId) throws IdNotFoundException;
+}

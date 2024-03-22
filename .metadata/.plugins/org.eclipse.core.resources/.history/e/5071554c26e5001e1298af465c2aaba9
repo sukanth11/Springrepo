@@ -1,0 +1,66 @@
+package com.voya.demo;
+
+public class Vehicle {
+	
+	private Integer vehicleId;
+	private String model;
+	private String brand;
+	private double price;
+	/**
+	 * @return the vehicleId
+	 */
+	public Integer getVehicleId() {
+		return vehicleId;
+	}
+	/**
+	 * @param vehicleId the vehicleId to set
+	 */
+	public void setVehicleId(Integer vehicleId) {
+		this.vehicleId = vehicleId;
+	}
+	/**
+	 * @return the model
+	 */
+	public String getModel() {
+		return model;
+	}
+	/**
+	 * @param model the model to set
+	 */
+	public void setModel(String model) {
+		this.model = model;
+	}
+	/**
+	 * @return the brand
+	 */
+	public String getBrand() {
+		return brand;
+	}
+	/**
+	 * @param brand the brand to set
+	 */
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	/**
+	 * @return the price
+	 */
+	public double getPrice() {
+		return price;
+	}
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return "Vehicle [vehicleId=" + vehicleId + ", model=" + model + ", brand=" + brand + ", price=" + price + "]";
+	}
+	
+	
+	
+
+}

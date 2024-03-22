@@ -1,0 +1,33 @@
+package com.voya.hotel;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Waiter {
+	@Autowired
+	@Qualifier("indian")
+	private IFoodMenu foodMenu;
+	
+	@Autowired
+	@Qualifier("italian")
+	private IFoodMenu foodMenu1;
+	
+	@Autowired
+	IFoodMenu chinese;
+
+	List<String> viewMenuCard(String choice){
+		if(choice.equals("c"))
+			return chinese.showMenu();
+		if(choice.equals("i"))
+			return foodMenu.showMenu();
+		if(choice.equals("it"))
+			return foodMenu1.showMenu();
+		return null;
+	}
+
+	
+}

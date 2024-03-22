@@ -1,0 +1,31 @@
+package com.insuranceapp.service;
+
+import java.util.Arrays;
+import java.util.List;
+
+import com.insuranceapp.model.Insurance;
+
+public class InsuranceServiceImpl implements IInsuranceService{
+
+	@Override
+	public List<Insurance> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Insurance getById(int insuranceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private List<Insurance> getAllInsurance(){
+		return Arrays.asList(
+				new Insurance(101,"vo-h001","voya","health",10,10000),
+				new Insurance(102, "Bj-m01", "bajaj", "motor", 10, 5000),
+				new Insurance(103, "fi-life", "fidelity", "life", 15, 20000),
+				new Insurance(104, "vo-420", "voya", "health", 8, 15000));
+	}
+	}
+
+}

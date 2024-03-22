@@ -1,0 +1,5 @@
+package com.insuranceapp.repository;
+@mapper
+public class InsuranceRepository {
+
+}

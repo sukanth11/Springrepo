@@ -1,0 +1,37 @@
+package com.example.config;
+
+import org.apache.catalina.User;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import ch.qos.logback.core.encoder.Encoder;
+
+@Configuration
+@EnableWebSecurity
+public class WebConfig {
+	
+	@Bean
+	public UserDetailsManager userDetailsManager() {
+		UserDetails user1=
+				User.withUsername("sukanth")
+				.password(encoder().encoder("1234"))
+				.roles("ADMIN","USER")
+				.build();
+		UserDetails user2=
+				User.withUsername("sukanthj")
+				.password(encoder().encoder("12345"))
+				.roles("USER")
+				.build();
+		return new InMemoryUserDetailsManager("user1","user2");
+	}
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+}
