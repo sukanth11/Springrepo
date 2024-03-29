@@ -1,6 +1,12 @@
 package com.insuranceapp.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -18,23 +24,31 @@ public class AppUserServiceImpl implements UserDetailsManager{
 	@Autowired
 	private IAppUserRepository appUserRepository;
 	
-	@Autowired
-	private AppUserMapper appUserMapper;
-
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		AppUser appUser= appUserRepository.findByUsername(username);
-		UserDetails details=appUserMapper.convertToAppUser(appUser);
-		if(appUser==null)
-			
-		return null;
+		System.out.println(username);
+		AppUser appUser = appUserRepository.findByUsername(username);
+		if(appUser==null) {
+			System.out.println("------------");
+			throw new UsernameNotFoundException("username not found");
+		}
+		String uname = appUser.getUsername();
+		String password = appUser.getPassword();
+		List<GrantedAuthority>  authorities = appUser.getRoles()
+							.stream()
+							.map(role->new SimpleGrantedAuthority(role))
+							.collect(Collectors.toList());
+		// create a User object
+		UserDetails userDetails = new User(uname, password, authorities);
+		return userDetails;
 	}
 
 	@Override
 	public void createUser(UserDetails user) {
-		AppUser appUser=appUserMapper.convertToAppUser(user);
+		AppUser appUser = convertToAppUser(user);
+		System.out.println(appUser);
 		appUserRepository.addUser(appUser);
-		
 	}
 
 	@Override
@@ -61,6 +75,21 @@ public class AppUserServiceImpl implements UserDetailsManager{
 		return false;
 	}
 	
-	
+	public AppUser convertToAppUser(UserDetails user) {
+		// get data from UserDetails
+		String username = user.getUsername();
+		String password = user.getPassword();
+		List<String>  roles = user.getAuthorities()
+							.stream()
+							.map(grantedAuthority->grantedAuthority.getAuthority())
+							.toList();
+		// create appUser object
+		AppUser appUser = new AppUser();
+		appUser.setUsername(username);
+		appUser.setPassword(password);
+		appUser.setRoles(roles);
+		return appUser;
+		
+	}
 
 }

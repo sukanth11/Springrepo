@@ -44,10 +44,10 @@ public class AppUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<String> getroles() {
+	public List<String> getRoles() {
 		return roles;
 	}
-	public void setroles(List<String> roles) {
+	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
 	@Override
